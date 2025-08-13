@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Rinconcito Cubano de Jeny</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F5F5F5; }
+        .header-banner { background-image: url('https://i.postimg.cc/rsBZw4pz/Delicias-caseras-que-abrazan-el-alma-Cada-bocado-lleva-el-amor-de-una-madre-20250812-161600-0000.png'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .footer-bg { background-color: #B71C1C; }
+        .clickable-image { cursor: pointer; }
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.75); justify-content: center; align-items: center; }
+        .modal-content { background-color: white; padding: 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); width: 90%; max-width: 640px; position: relative; transform: translateY(12px); transition: transform .25s ease-out; }
+        .modal.show .modal-content { transform: translateY(0); }
+        @keyframes pulse-and-fade { 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
+        .pulse { animation: pulse-and-fade .45s ease-in-out; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen"> 
+
+    <!-- Header Banner -->
+    <div class="header-banner h-56 w-full shadow-lg"></div> 
+
+    <!-- Main Header -->
+    <header class="bg-white p-6 shadow-md">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+            <div class="flex-grow">
+                <h1 class="text-4xl font-bold font-serif tracking-wide text-[#343a40]">El Rinconcito Cubano de Jeny</h1>
+                <p class="text-xl mt-1 text-gray-700">Pedidos Online</p>
+                <p class="mt-2 text-sm italic text-gray-500">Hecho con amor 😍 por una Madre.</p>
+                <div class="mt-4 text-sm flex flex-col md:flex-row items-center md:justify-start text-gray-600 gap-2">
+                    <a href="https://wa.me/59175615772" class="flex items-center hover:text-[#d9534f] transition-colors duration-200" target="_blank" rel="noopener">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16.59 13.58c-.4-.4-1.03-.42-1.41-.05l-1.12 1.12c-.22.22-.58.19-.77-.07-.5-.67-1.14-1.63-1.87-2.36-.73-.73-1.69-1.37-2.36-1.87-.26-.19-.29-.55-.07-.77l1.12-1.12c.37-.37.35-1.01-.05-1.41l-2-2c-.4-.4-1.03-.42-1.41-.05l-2.03 2.03c-.63.63-.84 1.55-.42 2.37l.45.89c.1.2.22.39.37.58.74.92 1.63 1.8 2.58 2.62 1.34 1.15 2.8 2.04 4.31 2.65l.5.21c.82.34 1.74.13 2.37-.42l2.03-2.03c.37-.38.35-1.02-.05-1.42l-2-2zM12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z"/>
+                        </svg>
+                        <span>+591 75615772</span>
+                    </a>
+                    <p class="mt-1 md:mt-0 md:ml-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Francisco Kempff 3468, Santa Cruz de la Sierra, Bolivia 🇧🇴</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header> 
+
+    <!-- Main Content -->
+    <main class="container mx-auto flex-grow p-4 md:p-8">
+        <h2 class="text-3xl font-bold text-[#343a40] mb-6 text-center">Nuestros Productos</h2> 
+        <div id="product-grid" class="grid grid-cols-1 gap-12"></div> 
+        <button id="cart-button" class="mt-8 w-full bg-[#d9534f] text-white p-4 rounded-md shadow-lg hover:bg-[#c9302c] transition-colors duration-200 focus:outline-none flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 1.96 1.61h9.72a2 2 0 0 0 1.96-1.61L23 6H6"></path>
+            </svg>
+            <span class="text-lg font-bold">Ver Carrito (<span id="cart-count">0</span>)</span>
+        </button>
+    </main>
+    
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content w-full max-w-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-[#343a40]">Tu Pedido</h3>
+                <button id="close-cart-button" class="text-gray-500 hover:text-gray-800 transition-colors duration-200 focus:outline-none" aria-label="Cerrar carrito">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="cart-items" class="max-h-60 overflow-y-auto mb-4 border-b border-gray-200">
+                <p id="empty-cart-message" class="text-center text-gray-500">El carrito está vacío.</p>
+            </div> 
+
+            <div id="cart-summary" class="space-y-2 text-[#343a40] font-semibold">
+                <div class="flex justify-between">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">Bs 0.00</span>
+                </div>
+                <div class="flex justify-between text-xl font-bold border-t pt-2 mt-2">
+                    <span>Total (sin envío):</span>
+                    <span id="total">Bs 0.00</span>
+                </div>
+                <!-- Aviso claro sobre el envío -->
+                <p class="mt-2 text-sm text-gray-600 italic">
+                    📦 El costo de entrega <strong>depende de la distancia</strong> y se informará por WhatsApp antes de confirmar el pedido.
+                </p>
+            </div> 
+
+            <button id="checkout-button" class="mt-6 w-full bg-[#28a745] text-white py-3 px-6 rounded-md font-bold hover:bg-[#218838] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#28a745] focus:ring-opacity-50">
+                Finalizar Pedido por WhatsApp
+            </button>
+            
+            <!-- Custom Message Box -->
+            <div id="custom-message-box" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 z-50 flex items-center justify-center p-4">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+                    <p id="message-text" class="text-lg text-gray-800 mb-4"></p>
+                    <button id="close-message-box" class="bg-[#d9534f] text-white py-2 px-4 rounded-md hover:bg-[#c9302c] transition-colors duration-200 focus:outline-none">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <!-- Product Details Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content max-w-2xl">
+            <div class="flex justify-end mb-4">
+                <button id="close-product-modal-button" class="text-gray-500 hover:text-gray-800 transition-colors duration-200 focus:outline-none" aria-label="Cerrar detalle de producto">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <img id="product-modal-image" src="" alt="Imagen de producto" class="rounded-md object-cover w-full h-auto max-h-96 mb-4">
+            <h3 id="product-modal-title" class="text-2xl font-bold text-[#343a40] mb-2"></h3>
+            <p id="product-modal-description" class="text-gray-700 mb-4"></p>
+            <button id="product-modal-add-to-cart" class="w-full bg-[#28a745] text-white py-2 rounded-md font-semibold hover:bg-[#218838] transition-colors duration-200">
+                Añadir al Carrito
+            </button>
+        </div>
+    </div>
+    
+    <!-- Order Form Modal -->
+    <div id="order-form-modal" class="modal">
+        <div class="modal-content w-full max-w-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-[#343a40]">Detalles de Contacto</h3>
+                <button id="close-form-button" class="text-gray-500 hover:text-gray-800 transition-colors duration-200 focus:outline-none" aria-label="Cerrar formulario">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-gray-600 mb-4">Por favor, rellena tus datos para completar el pedido.</p>
+            <form id="order-form" class="space-y-4">
+                <div>
+                    <label for="customer-name" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                    <input type="text" id="customer-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d9534f] focus:ring-[#d9534f] sm:text-sm p-2">
+                </div>
+                <div>
+                    <label for="customer-phone" class="block text-sm font-medium text-gray-700">Número de teléfono:</label>
+                    <input type="tel" id="customer-phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d9534f] focus:ring-[#d9534f] sm:text-sm p-2">
+                </div>
+                <div>
+                    <label for="customer-address" class="block text-sm font-medium text-gray-700">Dirección de entrega:</label>
+                    <textarea id="customer-address" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#d9534f] focus:ring-[#d9534f] sm:text-sm p-2"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-[#28a745] text-white py-3 px-6 rounded-md font-bold hover:bg-[#218838] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#28a745] focus:ring-opacity-50">
+                    Confirmar y Enviar a WhatsApp
+                </button>
+            </form>
+        </div>
+    </div> 
+
+    <!-- Footer -->
+    <footer class="footer-bg text-white p-8 mt-8">
+        <div class="container mx-auto text-center">
+            <div class="mb-4">
+                <h3 class="text-2xl font-bold mb-2">El Rinconcito Cubano de Jeny</h3>
+                <p class="text-sm">Delicias caseras que abrazan el alma.</p>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+                <p class="text-sm flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <span>Francisco Kempff 3468, Santa Cruz de la Sierra, Bolivia 🇧🇴</span>
+                </p>
+                <a href="https://wa.me/59175615772" class="flex items-center text-sm hover:underline" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16.59 13.58c-.4-.4-1.03-.42-1.41-.05l-1.12 1.12c-.22.22-.58.19-.77-.07-.5-.67-1.14-1.63-1.87-2.36-.73-.73-1.69-1.37-2.36-1.87-.26-.19-.29-.55-.07-.77l1.12-1.12c.37-.37.35-1.01-.05-1.41l-2-2c-.4-.4-1.03-.42-1.41-.05l-2.03 2.03c-.63.63-.84 1.55-.42 2.37l.45.89c.1.2.22.39.37.58.74.92 1.63 1.8 2.58 2.62 1.34 1.15 2.8 2.04 4.31 2.65l.5.21c.82.34 1.74.13 2.37-.42l2.03-2.03c.37-.38.35-1.02-.05-1.42l-2-2zM12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z"/>
+                    </svg>
+                    <span>+591 75615772</span>
+                </a>
+            </div> 
+            <div class="border-t border-gray-700 mt-6 pt-4">
+                <p class="text-sm">&copy; 2025 El Rinconcito Cubano de Jeny. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer> 
+
+    <script>
+        // Productos
+        const productsByCategory = {
+            "Postres de Tres Leches": [
+                { id: 1, name: "Postre de tres leches y coco rayado", price: 10, imageUrl: "https://i.postimg.cc/FHnj0LcK/IMG-20250812-WA0013-1.png", description: "Nuestro clásico postre de tres leches, con el toque tropical del coco rallado. Una combinación cremosa y refrescante, perfecta para cualquier momento." },
+                { id: 2, name: "Postre de tres leches con chispas", price: 10, imageUrl: "https://i.postimg.cc/1Xj9vsKD/IMG-20250812-WA0006-1.png", description: "Postre de tres leches con una lluvia de chispas de colores. Suaves, dulces y divertidas, ideal para los amantes del chocolate." },
+                { id: 3, name: "Postre de tres leches con maracuyá", price: 10, imageUrl: "https://i.postimg.cc/YqdXyjg5/IMG-20250812-WA0008.png", description: "Un delicioso postre de tres leches con una vibrante y ácida capa de maracuyá. El equilibrio perfecto entre dulzura y frescura exótica." },
+                { id: 4, name: "Postre de tres leches con limón", price: 10, imageUrl: "https://i.postimg.cc/Wbzmz8Fy/IMG-20250812-WA0010.png", description: "Postre de tres leches con una capa de crema de limón, que le da un toque cítrico y refrescante. Ligero y delicioso, ideal para el calor." },
+                { id: 5, name: "Tres leches de café y chocolate", price: 10, imageUrl: "https://i.postimg.cc/nrg1p9kr/IMG-20250812-WA0020-1.png", description: "Una versión sofisticada de nuestro postre. Tres leches infusionado con café y cubierto con una rica capa de chocolate. Para los amantes de los sabores intensos." },
+                { id: 6, name: "Tres leches con chispas diferentes", price: 10, imageUrl: "https://i.postimg.cc/cJhM6bmV/IMG-20250812-WA0021.png", description: "Otra variante con una mezcla de chispas de chocolate blanco y negro, sobre una base clásica de tres leches. Textura y sabor en cada bocado." }
+            ],
+            "Otros Postres": [
+                { id: 7, name: "Postre de dulce de leche, galletas Oreo, chispas de chocolate", price: 10, imageUrl: "https://i.postimg.cc/mDkJ8Mp6/IMG-20250812-WA0003.png", description: "Una combinación irresistible. Capas de dulce de leche, galletas Oreo trituradas y chispas de chocolate, creando un postre cremoso y con mucha textura." },
+                { id: 8, name: "Postre de galletas Oreo, dulce de leche y chocolate", price: 10, imageUrl: "https://i.postimg.cc/y8fw9vvS/IMG-20250812-WA0004.png", description: "Postre decadente con base de galletas Oreo, cubierto con dulce de leche y un glaseado de chocolate. El sueño de todo amante del chocolate." },
+                { id: 9, name: "Postre de dulce de leche", price: 10, imageUrl: "https://i.postimg.cc/xjMD7GTW/IMG-20250812-WA0034-1.png", description: "Un postre sencillo y delicioso. La dulzura del dulce de leche en una presentación cremosa y suave. Un clásico que nunca falla." },
+                { id: 10, name: "Gelatinas mosaico", price: 3, imageUrl: "https://i.postimg.cc/nzTRbLg9/IMG-20250812-WA0019-1.png", description: "Divertidas y coloridas gelatinas en forma de mosaico. Un postro ligero y refrescante con diferentes sabores, perfecto para los más pequeños." },
+                { id: 11, name: "Arroz con leche y crema (Grande)", price: 5, imageUrl: "https://i.postimg.cc/HLrs7J4d/IMG-20250812-WA0014-1.png", description: "Porción grande de nuestro cremoso arroz con leche casero, con un toque extra de crema. Un postre tradicional que te recordará a la casa de la abuela." },
+                { id: 12, name: "Arroz con leche y crema (Pequeño)", price: 3, imageUrl: "https://i.postimg.cc/JncwymgR/IMG-20250812-WA0016-1.png", description: "Porción individual de nuestro delicioso arroz con leche cremoso. Un postre casero, dulce y reconfortante para darte un pequeño gusto." }
+            ],
+            "Otros Platos": [
+                { id: 13, name: "Ensalada de frutas", price: 10, imageUrl: "https://i.postimg.cc/kMbqC3wY/1755037055031.png", description: "Una opción saludable y refrescante. Nuestra ensalada de frutas frescas y variadas, cortadas al momento. Ideal para un desayuno o merienda ligera." },
+                { id: 14, name: "Empanadas de queso con choclo, pollo y carne molida", price: 3, imageUrl: "https://i.postimg.cc/fTqGS8HS/IMG-20250812-WA0018-1.png", description: "Deliciosas empanadas fritas rellenas de queso con choclo, pollo desmenuzado o carne molida. Crujientes por fuera y con un relleno sabroso." }
+            ]
+        }; 
+
+        const allProducts = Object.values(productsByCategory).flat(); 
+
+        let cart = [];
+        let cartCount = 0;
+        let lastProductIdClicked = null; 
+
+        // DOM refs
+        const productGrid = document.getElementById('product-grid');
+        const cartCountElement = document.getElementById('cart-count');
+        const cartButton = document.getElementById('cart-button');
+        const cartModal = document.getElementById('cart-modal');
+        const closeCartButton = document.getElementById('close-cart-button');
+        const cartItemsElement = document.getElementById('cart-items');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const subtotalElement = document.getElementById('subtotal');
+        const totalElement = document.getElementById('total');
+        const checkoutButton = document.getElementById('checkout-button');
+        const messageBox = document.getElementById('custom-message-box');
+            const messageText = document.getElementById('message-text');
+        const closeMessageBox = document.getElementById('close-message-box'); 
+        const productModal = document.getElementById('product-modal');
+        const productModalImage = document.getElementById('product-modal-image');
+        const productModalTitle = document.getElementById('product-modal-title');
+        const productModalDescription = document.getElementById('product-modal-description');
+        const closeProductModalButton = document.getElementById('close-product-modal-button');
+        const productModalAddToCartButton = document.getElementById('product-modal-add-to-cart');
+        const orderFormModal = document.getElementById('order-form-modal');
+        const orderForm = document.getElementById('order-form');
+        const closeFormButton = document.getElementById('close-form-button'); 
+
+        // Mensaje bonito (en lugar de alert)
+        function showMessage(text) {
+            messageText.textContent = text;
+            messageBox.classList.remove('hidden');
+        }
+        closeMessageBox.addEventListener('click', () => { messageBox.classList.add('hidden'); });
+
+        // Modal Producto
+        function showProductDetails(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (product) {
+                lastProductIdClicked = productId;
+                productModalImage.src = product.imageUrl;
+                productModalImage.alt = `Imagen de ${product.name}`;
+                productModalTitle.textContent = product.name;
+                productModalDescription.textContent = product.description;
+                productModal.style.display = 'flex';
+                setTimeout(() => productModal.classList.add('show'), 10);
+            }
+        } 
+
+        // Render de productos
+        function renderProducts() {
+            productGrid.innerHTML = '';
+            for (const category in productsByCategory) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category-section mb-8';
+                categoryDiv.innerHTML = `
+                    <h3 class="text-2xl font-bold text-[#343a40] mb-4">${category}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                `;
+                productGrid.appendChild(categoryDiv);
+                const productContainer = categoryDiv.querySelector('.grid'); 
+                productsByCategory[category].forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'bg-white rounded-lg shadow-lg p-6 flex flex-col justify-between transform transition-transform duration-300 hover:scale-105';
+                    productCard.innerHTML = `
+                        <img src="${product.imageUrl}" alt="Imagen de ${product.name}" class="rounded-md object-cover w-full h-48 mb-4 clickable-image">
+                        <div>
+                            <h3 class="text-xl font-bold text-[#343a40] mb-2">${product.name}</h3>
+                            <p class="text-2xl font-semibold text-[#d9534f]">Bs ${product.price.toFixed(2)}</p>
+                        </div>
+                        <div class="mt-4 flex items-center justify-center space-x-4">
+                            <button class="decrease-quantity-btn bg-gray-200 text-gray-700 w-10 h-10 rounded-full font-bold text-xl hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">-</button>
+                            <span id="quantity-${product.id}" class="quantity-display text-2xl font-bold text-[#343a40] w-8 text-center">0</span>
+                            <button class="add-to-cart-btn bg-[#28a745] text-white w-10 h-10 rounded-full font-bold text-xl hover:bg-[#218838] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50">+</button>
+                        </div>
+                    `;
+                    productCard.querySelector('.clickable-image').addEventListener('click', () => showProductDetails(product.id));
+                    const increaseButton = productCard.querySelector('.add-to-cart-btn');
+                    const decreaseButton = productCard.querySelector('.decrease-quantity-btn');
+                    increaseButton.addEventListener('click', () => increaseQuantity(product.id, increaseButton));
+                    decreaseButton.addEventListener('click', () => decreaseQuantity(product.id));
+                    productContainer.appendChild(productCard);
+                });
+            }
+            updateAllQuantityDisplays();
+        }
+        
+        function increaseQuantity(productId, buttonElement) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+            const cartItem = cart.find(item => item.id === productId);
+            if (cartItem) { cartItem.quantity++; } else { cart.push({ ...product, quantity: 1 }); }
+            updateCart();
+            updateQuantityDisplay(productId);
+            buttonElement.classList.remove('pulse'); void buttonElement.offsetWidth; buttonElement.classList.add('pulse');
+        } 
+
+        function decreaseQuantity(productId) {
+            const idx = cart.findIndex(item => item.id === productId);
+            if (idx > -1) {
+                if (cart[idx].quantity > 1) cart[idx].quantity--;
+                else cart.splice(idx, 1);
+                updateCart();
+                updateQuantityDisplay(productId);
+            }
+        } 
+
+        function updateQuantityDisplay(productId) {
+            const el = document.getElementById(`quantity-${productId}`);
+            const item = cart.find(i => i.id === productId);
+            if (el) el.textContent = item ? item.quantity : 0;
+        } 
+
+        function updateAllQuantityDisplays() {
+            allProducts.forEach(product => updateQuantityDisplay(product.id));
+        } 
+
+        function removeFromCart(productId) {
+            const idx = cart.findIndex(item => item.id === productId);
+            if (idx > -1) {
+                cart.splice(idx, 1);
+                updateCart();
+                updateQuantityDisplay(productId);
+            }
+        }
+        window.removeFromCart = removeFromCart;
+
+        function updateCart() {
+            cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountElement.textContent = cartCount;
+            cartItemsElement.innerHTML = '';
+
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+            } else {
+                emptyCartMessage.classList.add('hidden');
+                cart.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex justify-between items-center py-2 border-b border-gray-200';
+                    itemElement.innerHTML = `
+                        <div>
+                            <p class="font-bold text-[#343a40]">${item.name}</p>
+                            <p class="text-gray-500">Bs ${item.price.toFixed(2)} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-bold text-[#d9534f]">Bs ${(item.price * item.quantity).toFixed(2)}</span>
+                            <button onclick="removeFromCart(${item.id})" class="ml-4 text-[#d9534f] hover:text-[#c9302c] transition-colors duration-200" aria-label="Eliminar">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    `;
+                    cartItemsElement.appendChild(itemElement);
+                });
+            } 
+
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            subtotalElement.textContent = `Bs ${subtotal.toFixed(2)}`;
+            totalElement.textContent = `Bs ${subtotal.toFixed(2)}`; // Total solo productos (sin envío)
+        } 
+
+        // Abrir/Cerrar modales
+        cartButton.addEventListener('click', () => { cartModal.style.display = 'flex'; setTimeout(() => cartModal.classList.add('show'), 10); updateCart(); }); 
+        closeCartButton.addEventListener('click', () => { cartModal.classList.remove('show'); setTimeout(() => cartModal.style.display = 'none', 250); }); 
+        closeProductModalButton.addEventListener('click', () => { productModal.classList.remove('show'); setTimeout(() => productModal.style.display = 'none', 250); }); 
+        closeFormButton.addEventListener('click', () => { orderFormModal.classList.remove('show'); setTimeout(() => orderFormModal.style.display = 'none', 250); }); 
+
+        // Añadir desde modal producto
+        productModalAddToCartButton.addEventListener('click', () => {
+            if (lastProductIdClicked) {
+                const product = allProducts.find(p => p.id === lastProductIdClicked);
+                if (product) {
+                    increaseQuantity(lastProductIdClicked, productModalAddToCartButton);
+                    productModal.classList.remove('show');
+                    setTimeout(() => productModal.style.display = 'none', 250);
+                }
+            }
+        }); 
+
+        // Paso al formulario
+        checkoutButton.addEventListener('click', () => {
+            if (cart.length === 0) { showMessage("Tu carrito está vacío. Añade productos para realizar el pedido."); return; }
+            cartModal.classList.remove('show');
+            setTimeout(() => {
+                cartModal.style.display = 'none';
+                orderFormModal.style.display = 'flex';
+                setTimeout(() => orderFormModal.classList.add('show'), 10);
+            }, 250);
+        }); 
+
+        // Envío a WhatsApp (mensaje en voz del cliente)
+        orderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            if (!name || !phone || !address) { showMessage("Por favor, completa todos los campos del formulario."); return; }
+
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            let whatsappMessage = `¡Hola! Me gustaría hacer un pedido.\n\n` +
+                `*Datos del Cliente:*\n` +
+                `Nombre: ${name}\n` +
+                `Teléfono: ${phone}\n` +
+                `Dirección: ${address}\n\n` +
+                `*Detalles del Pedido:*\n`;
+            cart.forEach(item => { whatsappMessage += `${item.quantity} x ${item.name} (Bs ${item.price.toFixed(2)} c/u) = Bs ${(item.quantity * item.price).toFixed(2)}\n`; });
+            whatsappMessage += `\nSubtotal (sin envío): Bs ${subtotal.toFixed(2)}\n`;
+            whatsappMessage += `El costo de entrega depende de la distancia.\n`;
+            whatsappMessage += `*Espero el precio del envío para confirmar si realizo el pedido.*`;
+
+            const encoded = encodeURIComponent(whatsappMessage);
+            const whatsappUrl = `https://wa.me/59175615772?text=${encoded}`;
+            window.open(whatsappUrl, '_blank'); 
+
+            orderFormModal.classList.remove('show');
+            setTimeout(() => orderFormModal.style.display = 'none', 250);
+        }); 
+
+        // Render inicial
+        window.onload = function() { renderProducts(); };
+    </script>
+</body>
+</html>
